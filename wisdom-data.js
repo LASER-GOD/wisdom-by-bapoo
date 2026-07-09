@@ -193,7 +193,8 @@
   var CATEGORIES = [
     { id: "hindi", label: "Hindi", icon: "🪔" },
     { id: "jewish", label: "Jewish", icon: "✡️" },
-    { id: "polish", label: "Polish", icon: "🦅" }
+    { id: "polish", label: "Polish", icon: "🦅" },
+    { id: "random", label: "Random", icon: "🎲" }
   ];
 
   window.WISDOM_DATA = { hindi: HINDI, jewish: JEWISH, polish: POLISH };

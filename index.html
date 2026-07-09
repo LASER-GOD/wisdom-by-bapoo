@@ -232,13 +232,6 @@
       color: #8a7186;
       font-size: 10px;
     }
-    #categoryLabel {
-      font-size: 3.2vw;
-      color: #cfa96e;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      opacity: 0.9;
-    }
     #actionBar {
       position: fixed;
       bottom: max(env(safe-area-inset-bottom), 18px);
@@ -300,9 +293,8 @@
 
   <div class="wrap">
     <div class="icon">&#129417;</div>
-    <div id="categoryLabel"></div>
     <div id="saying"></div>
-    <div id="hint">Tap anywhere for a proverb</div>
+    <div id="hint">Tap for some wisdom</div>
   </div>
 
   <div id="actionBar">
@@ -336,18 +328,18 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v1.0';
+    var APP_VERSION = 'v1.1';
     var BUILD_DATE = 'July 8, 2026';
     var VERSION_HISTORY = [
+      { v: 'v1.1', notes: 'Added a Random button, removed the category label under the owl, and changed the hint to "Tap for some wisdom."' },
       { v: 'v1.0', notes: 'Initial release. Hindi, Jewish, and Polish proverb categories, custom owl-and-lantern app icon, About screen, and iOS/Android support.' }
     ];
     var DATA = window.WISDOM_DATA;
     var CATEGORIES = window.WISDOM_CATEGORIES;
-    var CONTENT_IDS = CATEGORIES.map(function (c) { return c.id; });
+    var CONTENT_IDS = CATEGORIES.filter(function (c) { return c.id !== 'random'; }).map(function (c) { return c.id; });
 
     var sayingEl = document.getElementById('saying');
     var hintEl = document.getElementById('hint');
-    var categoryLabelEl = document.getElementById('categoryLabel');
     var categoryBarEl = document.getElementById('categoryBar');
     var aboutOverlay = document.getElementById('aboutOverlay');
     var versionOverlay = document.getElementById('versionOverlay');
@@ -358,8 +350,21 @@
     var lastTapTime = 0;
     var TAP_COOLDOWN_MS = 1000;
 
+    // Random draws from a category picked fresh each tap (seeded off the current
+    // time), so back-to-back taps roam across Hindi/Jewish/Polish instead of
+    // camping on whichever category happened to be picked first.
+    function pickCategoryId() {
+      if (currentCategory === 'random') {
+        var seed = Date.now() % CONTENT_IDS.length;
+        var idx = Math.floor(Math.random() * CONTENT_IDS.length);
+        idx = (idx + seed) % CONTENT_IDS.length;
+        return CONTENT_IDS[idx];
+      }
+      return currentCategory;
+    }
+
     function nextSaying() {
-      var list = DATA[currentCategory];
+      var list = DATA[pickCategoryId()];
       var i;
       do { i = Math.floor(Math.random() * list.length); }
       while (i === lastIndex && list.length > 1);
@@ -472,7 +477,6 @@
           e.stopPropagation();
           currentCategory = cat.id;
           renderCategoryBar();
-          categoryLabelEl.textContent = cat.label;
           lastIndex = -1;
           showSaying(window.innerWidth / 2, window.innerHeight / 2);
         });
@@ -499,7 +503,6 @@
     }
 
     renderCategoryBar();
-    categoryLabelEl.textContent = CATEGORIES[0].label;
 
     var copyBtn = document.getElementById('copyBtn');
     var messageBtn = document.getElementById('messageBtn');
