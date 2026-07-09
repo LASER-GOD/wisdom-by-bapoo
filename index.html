@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <title>Wisdom by Bapoo</title>
+
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Bapoo" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#150a11" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon-192.png" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      font-family: Georgia, "Segoe UI", serif;
+      background: radial-gradient(circle at 50% 25%, #3a182e 0%, #150a11 75%);
+      color: #f6ecdf;
+      overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .wrap {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8vw;
+      text-align: center;
+      gap: 5vh;
+      transform: translateY(-8vh);
+    }
+    .icon {
+      font-size: 14vw;
+      filter: drop-shadow(0 0 20px rgba(232, 191, 108, 0.6));
+      animation: glow 3s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(232, 191, 108, 0.45)); }
+      50% { filter: drop-shadow(0 0 28px rgba(232, 191, 108, 0.85)); }
+    }
+    #saying {
+      font-size: 6.5vw;
+      line-height: 1.5;
+      font-weight: 500;
+      color: #f6ecdf;
+      text-shadow: 0 0 24px rgba(232, 191, 108, 0.35);
+      max-width: 90vw;
+      opacity: 0;
+      transform: translateY(10px) scale(0.97);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    #saying.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    #hint {
+      font-size: 4vw;
+      color: #cfa96e;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .ripple {
+      position: fixed;
+      border-radius: 50%;
+      background: rgba(232, 191, 108, 0.25);
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+      animation: ripple-anim 0.6s ease-out forwards;
+    }
+    @keyframes ripple-anim {
+      to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 5, 8, 0.92);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      padding: 8vw;
+      text-align: center;
+      overflow-y: auto;
+    }
+    .overlay.show { display: flex; }
+    #aboutOverlay { align-items: flex-start; }
+    #aboutOverlay .about-card { margin-top: 6vh; }
+    .about-footer .build-info {
+      opacity: 0.55;
+      font-size: 3vw;
+      letter-spacing: 0.5px;
+    }
+    .about-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5vh;
+    }
+    .about-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5vh;
+    }
+    .about-header .about-icon {
+      font-size: 11vw;
+    }
+    .about-card h2 {
+      font-family: "Bookman Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-style: italic;
+      font-size: 6.5vw;
+      letter-spacing: 0.5px;
+      color: #f0c869;
+      text-shadow: 0 0 14px rgba(232, 191, 108, 0.45);
+    }
+    .about-card p {
+      font-size: 4.2vw;
+      line-height: 1.6;
+    }
+    .about-card .site {
+      color: #cfa96e;
+      letter-spacing: 1px;
+    }
+    .about-card .special-message {
+      font-style: italic;
+      color: #f2e2c4;
+      line-height: 1.7;
+    }
+    .about-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.2vh;
+      margin-top: 3vh;
+    }
+    .version-card {
+      max-width: 90vw;
+      max-height: 80vh;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .version-card h2 {
+      font-size: 5.5vw;
+      color: #f0c869;
+      text-align: center;
+      margin-bottom: 3vh;
+    }
+    .version-entry {
+      margin-bottom: 2.2vh;
+      padding-bottom: 2.2vh;
+      border-bottom: 1px solid rgba(232, 191, 108, 0.18);
+    }
+    .version-entry:last-child { border-bottom: none; }
+    .version-entry .v-num {
+      font-size: 4vw;
+      color: #f0c869;
+      font-weight: bold;
+      margin-bottom: 0.6vh;
+    }
+    .version-entry .v-notes {
+      font-size: 3.4vw;
+      line-height: 1.5;
+      color: #e8d5c4;
+    }
+    #topBar {
+      position: fixed;
+      top: max(env(safe-area-inset-top), 10px);
+      left: 10px;
+      right: 10px;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    #appTitle {
+      font-family: "Bookman Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      font-style: italic;
+      font-size: 5vw;
+      letter-spacing: 0.5px;
+      color: #f0c869;
+      text-shadow: 0 0 14px rgba(232, 191, 108, 0.45);
+    }
+    #categoryBar {
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 6px;
+      padding: 2px 2px 6px;
+      -webkit-overflow-scrolling: touch;
+    }
+    #categoryBar::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(232, 191, 108, 0.08);
+      border: 1px solid rgba(232, 191, 108, 0.28);
+      color: #e6c98a;
+      font-family: Georgia, serif;
+      font-size: 11px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      touch-action: manipulation;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    .cat-btn:active { transform: scale(0.93); }
+    .cat-btn .em { font-size: 13px; }
+    .cat-btn.active {
+      background: rgba(232, 191, 108, 0.28);
+      border-color: #f0c869;
+      color: #f6ecdf;
+      box-shadow: 0 0 12px rgba(232, 191, 108, 0.5);
+    }
+    .cat-btn.version-chip {
+      background: transparent;
+      border-color: rgba(232, 191, 108, 0.18);
+      color: #8a7186;
+      font-size: 10px;
+    }
+    #categoryLabel {
+      font-size: 3.2vw;
+      color: #cfa96e;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+    #actionBar {
+      position: fixed;
+      bottom: max(env(safe-area-inset-bottom), 18px);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      display: flex;
+      gap: 10px;
+    }
+    .action-btn {
+      padding: 13px 22px;
+      min-width: 34vw;
+      border-radius: 999px;
+      background: rgba(232, 191, 108, 0.12);
+      border: 1px solid rgba(232, 191, 108, 0.4);
+      color: #f0c869;
+      font-family: Georgia, serif;
+      font-size: 4.2vw;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-align: center;
+      touch-action: manipulation;
+      cursor: pointer;
+      transition: transform 0.1s ease, background 0.1s ease;
+    }
+    .action-btn:active {
+      transform: scale(0.94);
+      background: rgba(232, 191, 108, 0.24);
+    }
+    #copyToast {
+      position: fixed;
+      bottom: calc(max(env(safe-area-inset-bottom), 18px) + 46px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      z-index: 6;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(232, 191, 108, 0.9);
+      color: #150a11;
+      font-size: 3.4vw;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    #copyToast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div id="topBar">
+    <div id="appTitle">Wisdom by Bapoo</div>
+    <div id="categoryBar"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="icon">&#129417;</div>
+    <div id="categoryLabel"></div>
+    <div id="saying"></div>
+    <div id="hint">Tap anywhere for a proverb</div>
+  </div>
+
+  <div id="actionBar">
+    <button id="copyBtn" class="action-btn">Copy</button>
+    <button id="messageBtn" class="action-btn">Text It</button>
+  </div>
+  <div id="copyToast">Copied!</div>
+
+  <div class="overlay" id="aboutOverlay">
+    <div class="about-card">
+      <div class="about-header">
+        <div class="icon about-icon">&#129417;</div>
+        <h2>Wisdom by Bapoo</h2>
+      </div>
+      <p class="special-message">Old-school proverbs passed down through generations, carried a little further with every tap.</p>
+      <div class="about-footer">
+        <p>Programmed by <strong>LASER GOD</strong></p>
+        <p class="site">WWW.BARUKH.COM</p>
+        <p style="opacity: 0.7; font-size: 3.6vw;">Tap anywhere to close</p>
+        <p class="build-info" id="buildInfo"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="versionOverlay">
+    <div class="version-card">
+      <h2>Version History</h2>
+      <div id="versionList"></div>
+    </div>
+  </div>
+
+  <script src="wisdom-data.js"></script>
+  <script>
+    var APP_VERSION = 'v1.0';
+    var BUILD_DATE = 'July 8, 2026';
+    var VERSION_HISTORY = [
+      { v: 'v1.0', notes: 'Initial release. Hindi, Jewish, and Polish proverb categories, custom owl-and-lantern app icon, About screen, and iOS/Android support.' }
+    ];
+    var DATA = window.WISDOM_DATA;
+    var CATEGORIES = window.WISDOM_CATEGORIES;
+    var CONTENT_IDS = CATEGORIES.map(function (c) { return c.id; });
+
+    var sayingEl = document.getElementById('saying');
+    var hintEl = document.getElementById('hint');
+    var categoryLabelEl = document.getElementById('categoryLabel');
+    var categoryBarEl = document.getElementById('categoryBar');
+    var aboutOverlay = document.getElementById('aboutOverlay');
+    var versionOverlay = document.getElementById('versionOverlay');
+    var versionListEl = document.getElementById('versionList');
+    var currentCategory = CATEGORIES[0].id;
+    var currentText = '';
+    var lastIndex = -1;
+    var lastTapTime = 0;
+    var TAP_COOLDOWN_MS = 1000;
+
+    function nextSaying() {
+      var list = DATA[currentCategory];
+      var i;
+      do { i = Math.floor(Math.random() * list.length); }
+      while (i === lastIndex && list.length > 1);
+      lastIndex = i;
+      return list[i];
+    }
+
+    function showSaying(x, y) {
+      hintEl.style.opacity = '0';
+      sayingEl.classList.remove('show');
+      setTimeout(function () {
+        currentText = nextSaying();
+        sayingEl.textContent = currentText;
+        sayingEl.classList.add('show');
+      }, 180);
+
+      var r = document.createElement('div');
+      r.className = 'ripple';
+      var size = Math.max(window.innerWidth, window.innerHeight) * 1.4;
+      r.style.width = size + 'px';
+      r.style.height = size + 'px';
+      r.style.left = x + 'px';
+      r.style.top = y + 'px';
+      document.body.appendChild(r);
+      r.addEventListener('animationend', function () { r.remove(); });
+
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(15);
+      }
+    }
+
+    // Touch devices fire both 'touchstart' and a synthetic 'click' for the same
+    // tap, which used to double-advance the saying. A shared cooldown timestamp
+    // collapses both events from one physical tap into a single change.
+    function handleScreenTap(x, y) {
+      var now = Date.now();
+      if (now - lastTapTime < TAP_COOLDOWN_MS) return;
+      lastTapTime = now;
+      showSaying(x, y);
+    }
+
+    // Buttons wait on the browser's synthetic 'click' event by default, which can
+    // lag behind the physical tap. bindTap responds instantly on touchstart and
+    // suppresses the click that follows the same tap, so buttons feel immediate.
+    //
+    // That follow-up click doesn't always land back on the same element, though:
+    // opening an overlay (About/Version) makes it cover the screen immediately,
+    // so the synthetic click from the tap that opened it can land ON the overlay
+    // and trigger its close handler right away — the overlay flashes open then
+    // shuts, i.e. it doesn't "latch" open. ghostClickGuardUntil is a shared
+    // deadline any click handler can check to ignore that trailing ghost click,
+    // regardless of which element it ends up targeting.
+    var ghostClickGuardUntil = 0;
+    function isGhostClick() { return Date.now() < ghostClickGuardUntil; }
+
+    function bindTap(el, handler) {
+      var touched = false;
+      el.addEventListener('touchstart', function (e) {
+        touched = true;
+        ghostClickGuardUntil = Date.now() + 600;
+        handler(e);
+        setTimeout(function () { touched = false; }, 500);
+      }, { passive: true });
+      el.addEventListener('click', function (e) {
+        if (touched) return;
+        handler(e);
+      });
+    }
+
+    var INTERACTIVE_SELECTOR = '#aboutOverlay, #versionOverlay, #topBar, #actionBar';
+
+    document.addEventListener('touchstart', function (e) {
+      if (e.target.closest(INTERACTIVE_SELECTOR)) return;
+      var t = e.touches[0];
+      handleScreenTap(t.clientX, t.clientY);
+    }, { passive: true });
+
+    document.addEventListener('click', function (e) {
+      if (e.target.closest(INTERACTIVE_SELECTOR)) return;
+      handleScreenTap(e.clientX, e.clientY);
+    });
+
+    aboutOverlay.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (isGhostClick()) return;
+      aboutOverlay.classList.remove('show');
+    });
+
+    document.getElementById('buildInfo').textContent = APP_VERSION + '  •  Updated ' + BUILD_DATE;
+
+    versionListEl.innerHTML = VERSION_HISTORY.map(function (entry) {
+      return '<div class="version-entry"><div class="v-num">' + entry.v + '</div><div class="v-notes">' + entry.notes + '</div></div>';
+    }).join('');
+
+    versionOverlay.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (isGhostClick()) return;
+      versionOverlay.classList.remove('show');
+    });
+
+    function renderCategoryBar() {
+      categoryBarEl.innerHTML = '';
+
+      CATEGORIES.forEach(function (cat) {
+        var btn = document.createElement('button');
+        btn.className = 'cat-btn' + (cat.id === currentCategory ? ' active' : '');
+        btn.dataset.id = cat.id;
+        btn.innerHTML = '<span class="em">' + cat.icon + '</span><span>' + cat.label + '</span>';
+        bindTap(btn, function (e) {
+          e.stopPropagation();
+          currentCategory = cat.id;
+          renderCategoryBar();
+          categoryLabelEl.textContent = cat.label;
+          lastIndex = -1;
+          showSaying(window.innerWidth / 2, window.innerHeight / 2);
+        });
+        categoryBarEl.appendChild(btn);
+      });
+
+      var aboutChip = document.createElement('button');
+      aboutChip.className = 'cat-btn';
+      aboutChip.innerHTML = '<span>About</span>';
+      bindTap(aboutChip, function (e) {
+        e.stopPropagation();
+        aboutOverlay.classList.add('show');
+      });
+      categoryBarEl.appendChild(aboutChip);
+
+      var versionChip = document.createElement('button');
+      versionChip.className = 'cat-btn version-chip';
+      versionChip.textContent = APP_VERSION;
+      bindTap(versionChip, function (e) {
+        e.stopPropagation();
+        versionOverlay.classList.add('show');
+      });
+      categoryBarEl.appendChild(versionChip);
+    }
+
+    renderCategoryBar();
+    categoryLabelEl.textContent = CATEGORIES[0].label;
+
+    var copyBtn = document.getElementById('copyBtn');
+    var messageBtn = document.getElementById('messageBtn');
+    var copyToast = document.getElementById('copyToast');
+    var copyToastTimer = null;
+
+    function fallbackCopy(text) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      document.body.removeChild(ta);
+    }
+
+    function copyText(text) {
+      return new Promise(function (resolve) {
+        if (window.navigator && window.navigator.clipboard && window.navigator.clipboard.writeText) {
+          window.navigator.clipboard.writeText(text).then(resolve, function () {
+            fallbackCopy(text);
+            resolve();
+          });
+        } else {
+          fallbackCopy(text);
+          resolve();
+        }
+      });
+    }
+
+    function showToast(message) {
+      copyToast.textContent = message;
+      copyToast.classList.add('show');
+      if (copyToastTimer) clearTimeout(copyToastTimer);
+      copyToastTimer = setTimeout(function () { copyToast.classList.remove('show'); }, 1600);
+    }
+
+    bindTap(copyBtn, function (e) {
+      e.stopPropagation();
+      if (!currentText) return;
+      copyText(currentText).then(function () { showToast('Copied!'); });
+    });
+
+    bindTap(messageBtn, function (e) {
+      e.stopPropagation();
+      if (!currentText) return;
+      var text = currentText;
+      copyText(text).then(function () {
+        showToast('Copied — opening Messages…');
+        setTimeout(function () {
+          var isiOS = /iP(hone|od|ad)/.test(window.navigator.platform) ||
+            (window.navigator.userAgent.indexOf('Mac') !== -1 && window.navigator.maxTouchPoints > 1);
+          var url = (isiOS ? 'sms:&body=' : 'sms:?body=') + encodeURIComponent(text);
+          window.location.href = url;
+        }, 500);
+      });
+    });
+
+    // Checks the live deployment's version.json against the version baked into
+    // this page. If they differ, a newer build has been published, so reload to
+    // fetch it. Runs on open, whenever the app is brought back to the foreground,
+    // and periodically while it stays open.
+    var VERSION_CHECK_URL = 'https://laser-god.github.io/wisdom-by-bapoo/version.json';
+    var updateCheckInFlight = false;
+
+    function checkForUpdate() {
+      if (updateCheckInFlight) return;
+      updateCheckInFlight = true;
+      fetch(VERSION_CHECK_URL + '?t=' + Date.now(), { cache: 'no-store' })
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (data) {
+          if (data && data.version && data.version !== APP_VERSION) {
+            window.location.reload();
+          }
+        })
+        .catch(function () { /* offline or unreachable: ignore, try again later */ })
+        .then(function () { updateCheckInFlight = false; });
+    }
+
+    setTimeout(checkForUpdate, 1500);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') checkForUpdate();
+    });
+    window.addEventListener('focus', checkForUpdate);
+    setInterval(checkForUpdate, 5 * 60 * 1000);
+  </script>
+</body>
+</html>
