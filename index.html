@@ -86,6 +86,11 @@
       letter-spacing: 1px;
       text-transform: uppercase;
       opacity: 0.85;
+      transition: opacity 0.6s ease, font-size 0.6s ease;
+    }
+    #hint.faded {
+      font-size: 2.8vw;
+      opacity: 0.32;
     }
     .ripple {
       position: fixed;
@@ -350,9 +355,10 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v1.3';
+    var APP_VERSION = 'v1.4';
     var BUILD_DATE = 'July 8, 2026';
     var VERSION_HISTORY = [
+      { v: 'v1.4', notes: 'The "tap" hint no longer disappears after the first tap - it now fades into a small, subtle "Tap for more wisdom" reminder in the background, so it stays clear there is always another proverb waiting.' },
       { v: 'v1.3', notes: 'Each proverb now shows its original-language phrase (spelled phonetically in English letters) above the English translation. Trimmed each category down to well-known, verifiable traditional proverbs so every phrase is authentic.' },
       { v: 'v1.2', notes: 'The app now opens edge-to-edge in fullscreen on Android (status and navigation bars hidden) and requests fullscreen display mode as an installed web app.' },
       { v: 'v1.1', notes: 'Added a Random button, removed the category label under the owl, and changed the hint to "Tap for some wisdom."' },
@@ -399,7 +405,11 @@
     }
 
     function showSaying(x, y) {
-      hintEl.style.opacity = '0';
+      // The hint stays on screen but fades into a small, subtle reminder
+      // instead of disappearing, so people know there's always another
+      // proverb waiting for the next tap.
+      hintEl.textContent = 'Tap for more wisdom';
+      hintEl.classList.add('faded');
       sayingEl.classList.remove('show');
       setTimeout(function () {
         currentEntry = nextSaying();
