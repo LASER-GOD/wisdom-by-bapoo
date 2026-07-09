@@ -47,11 +47,11 @@
       50% { filter: drop-shadow(0 0 28px rgba(232, 191, 108, 0.85)); }
     }
     #saying {
-      font-size: 6.5vw;
-      line-height: 1.5;
-      font-weight: 500;
-      color: #f6ecdf;
-      text-shadow: 0 0 24px rgba(232, 191, 108, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6vh;
+      width: 90vw;
       max-width: 90vw;
       opacity: 0;
       transform: translateY(10px) scale(0.97);
@@ -60,6 +60,25 @@
     #saying.show {
       opacity: 1;
       transform: translateY(0) scale(1);
+    }
+    #sayingNative {
+      width: 100%;
+      min-width: 0;
+      font-size: 4.6vw;
+      line-height: 1.4;
+      font-style: italic;
+      font-weight: 500;
+      color: #f0c869;
+      text-shadow: 0 0 18px rgba(232, 191, 108, 0.4);
+    }
+    #sayingEnglish {
+      width: 100%;
+      min-width: 0;
+      font-size: 6.5vw;
+      line-height: 1.5;
+      font-weight: 500;
+      color: #f6ecdf;
+      text-shadow: 0 0 24px rgba(232, 191, 108, 0.35);
     }
     #hint {
       font-size: 4vw;
@@ -293,7 +312,10 @@
 
   <div class="wrap">
     <div class="icon">&#129417;</div>
-    <div id="saying"></div>
+    <div id="saying">
+      <div id="sayingNative"></div>
+      <div id="sayingEnglish"></div>
+    </div>
     <div id="hint">Tap for some wisdom</div>
   </div>
 
@@ -328,9 +350,10 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v1.2';
+    var APP_VERSION = 'v1.3';
     var BUILD_DATE = 'July 8, 2026';
     var VERSION_HISTORY = [
+      { v: 'v1.3', notes: 'Each proverb now shows its original-language phrase (spelled phonetically in English letters) above the English translation. Trimmed each category down to well-known, verifiable traditional proverbs so every phrase is authentic.' },
       { v: 'v1.2', notes: 'The app now opens edge-to-edge in fullscreen on Android (status and navigation bars hidden) and requests fullscreen display mode as an installed web app.' },
       { v: 'v1.1', notes: 'Added a Random button, removed the category label under the owl, and changed the hint to "Tap for some wisdom."' },
       { v: 'v1.0', notes: 'Initial release. Hindi, Jewish, and Polish proverb categories, custom owl-and-lantern app icon, About screen, and iOS/Android support.' }
@@ -340,13 +363,15 @@
     var CONTENT_IDS = CATEGORIES.filter(function (c) { return c.id !== 'random'; }).map(function (c) { return c.id; });
 
     var sayingEl = document.getElementById('saying');
+    var sayingNativeEl = document.getElementById('sayingNative');
+    var sayingEnglishEl = document.getElementById('sayingEnglish');
     var hintEl = document.getElementById('hint');
     var categoryBarEl = document.getElementById('categoryBar');
     var aboutOverlay = document.getElementById('aboutOverlay');
     var versionOverlay = document.getElementById('versionOverlay');
     var versionListEl = document.getElementById('versionList');
     var currentCategory = CATEGORIES[0].id;
-    var currentText = '';
+    var currentEntry = null;
     var lastIndex = -1;
     var lastTapTime = 0;
     var TAP_COOLDOWN_MS = 1000;
@@ -377,8 +402,9 @@
       hintEl.style.opacity = '0';
       sayingEl.classList.remove('show');
       setTimeout(function () {
-        currentText = nextSaying();
-        sayingEl.textContent = currentText;
+        currentEntry = nextSaying();
+        sayingNativeEl.textContent = currentEntry.native;
+        sayingEnglishEl.textContent = currentEntry.english;
         sayingEl.classList.add('show');
       }, 180);
 
@@ -543,16 +569,20 @@
       copyToastTimer = setTimeout(function () { copyToast.classList.remove('show'); }, 1600);
     }
 
+    function entryText(entry) {
+      return entry.native + '\n"' + entry.english + '"';
+    }
+
     bindTap(copyBtn, function (e) {
       e.stopPropagation();
-      if (!currentText) return;
-      copyText(currentText).then(function () { showToast('Copied!'); });
+      if (!currentEntry) return;
+      copyText(entryText(currentEntry)).then(function () { showToast('Copied!'); });
     });
 
     bindTap(messageBtn, function (e) {
       e.stopPropagation();
-      if (!currentText) return;
-      var text = currentText;
+      if (!currentEntry) return;
+      var text = entryText(currentEntry);
       copyText(text).then(function () {
         showToast('Copied — opening Messages…');
         setTimeout(function () {
