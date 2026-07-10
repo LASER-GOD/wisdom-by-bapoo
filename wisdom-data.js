@@ -31,7 +31,21 @@
     { native: "Aam ke aam, guthliyon ke daam", english: "Get the mangoes, and sell the seeds too." },
     { native: "Chaar din ki chandni, phir andheri raat", english: "Four days of moonlight, then a dark night." },
     { native: "Jiski lathi uski bhains", english: "Whoever holds the stick owns the buffalo." },
-    { native: "Door ke dhol suhaavane", english: "Drums sound sweeter from a distance." }
+    { native: "Door ke dhol suhaavane", english: "Drums sound sweeter from a distance." },
+    { native: "Ab pachtaye hot kya jab chidiya chug gayi khet", english: "What use is regret once the birds have already eaten the field? (No use crying over spilt milk.)" },
+    { native: "Nau sau chuhe khakar billi haj ko chali", english: "After eating nine hundred mice, the cat went on a pilgrimage." },
+    { native: "Na rahega baans, na bajegi bansuri", english: "If there is no bamboo, there will be no flute." },
+    { native: "Ek anar sau bimar", english: "One pomegranate, and a hundred sick people wanting it." },
+    { native: "Oont ke muh mein jeera", english: "A cumin seed in a camel's mouth." },
+    { native: "Na nau man tel hoga na Radha nachegi", english: "There will be no nine maunds of oil, and no dance either." },
+    { native: "Ghar ka bhedi Lanka dhaye", english: "An insider from home is the one who brings down Lanka." },
+    { native: "Aage kuan peeche khai", english: "A well ahead, a ditch behind." },
+    { native: "Andha baante revdi, phir phir apno ko de", english: "A blind man handing out sweets keeps giving to his own people." },
+    { native: "Saanp bhi mar jaye aur laathi bhi na tootay", english: "Kill the snake without breaking the stick." },
+    { native: "Dhobi ka kutta na ghar ka na ghat ka", english: "The washerman's dog belongs neither to the house nor the riverbank." },
+    { native: "Billi ke gale mein ghanti kaun baandhe", english: "Who will bell the cat?" },
+    { native: "Ek pantha do kaaj", english: "Two tasks done on a single path." },
+    { native: "Neki kar dariya mein daal", english: "Do a good deed, and cast it into the river." }
   ];
 
   var JEWISH = [
