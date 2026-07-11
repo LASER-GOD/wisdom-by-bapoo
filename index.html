@@ -159,6 +159,17 @@
       color: #f2e2c4;
       line-height: 1.7;
     }
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8vh;
+    }
+    .about-stats p {
+      font-size: 3.6vw;
+      color: #cfa96e;
+      letter-spacing: 0.5px;
+    }
     .about-footer {
       display: flex;
       flex-direction: column;
@@ -337,6 +348,10 @@
         <h2>Wisdom by Bapoo</h2>
       </div>
       <p class="special-message">Old-school proverbs passed down through generations, carried a little further with every tap.</p>
+      <div class="about-stats">
+        <p id="statSayings"></p>
+        <p id="statOpens"></p>
+      </div>
       <div class="about-footer">
         <p>Programmed by <strong>LASER GOD</strong></p>
         <p class="site">WWW.BARUKH.COM</p>
@@ -355,9 +370,10 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v1.6';
+    var APP_VERSION = 'v1.7';
     var BUILD_DATE = 'July 8, 2026';
     var VERSION_HISTORY = [
+      { v: 'v1.7', notes: 'Split Yiddish out into its own button, separate from Jewish (which now holds the Hebrew/Talmudic sayings). Added an About-page counter for how many times the app has been opened, and a live count of the total number of proverbs.' },
       { v: 'v1.6', notes: 'Added 12 more classic Yiddish folk proverbs alongside the existing Hebrew/Talmudic sayings, bringing the Jewish category to 29 entries.' },
       { v: 'v1.5', notes: 'Added 14 more classic Hindi idioms and proverbs (including the Hindi equivalent of "no use crying over spilt milk"), bringing the Hindi category to 41 entries.' },
       { v: 'v1.4', notes: 'The "tap" hint no longer disappears after the first tap - it now fades into a small, subtle "Tap for more wisdom" reminder in the background, so it stays clear there is always another proverb waiting.' },
@@ -493,6 +509,28 @@
     });
 
     document.getElementById('buildInfo').textContent = APP_VERSION + '  •  Updated ' + BUILD_DATE;
+
+    // Counts how many times the app has been opened (persisted in
+    // localStorage, so it survives across sessions on this device) and the
+    // total number of proverbs across every category, shown on the About page.
+    (function () {
+      var OPEN_COUNT_KEY = 'wisdomBapooOpenCount';
+      var openCount = 1;
+      try {
+        openCount = parseInt(localStorage.getItem(OPEN_COUNT_KEY), 10) || 0;
+        openCount += 1;
+        localStorage.setItem(OPEN_COUNT_KEY, String(openCount));
+      } catch (e) { /* localStorage unavailable (private mode, etc.) */ }
+
+      var totalSayings = CONTENT_IDS.reduce(function (sum, id) {
+        return sum + DATA[id].length;
+      }, 0);
+
+      document.getElementById('statOpens').textContent =
+        'Opened ' + openCount + (openCount === 1 ? ' time' : ' times');
+      document.getElementById('statSayings').textContent =
+        totalSayings + ' proverbs and counting';
+    })();
 
     versionListEl.innerHTML = VERSION_HISTORY.map(function (entry) {
       return '<div class="version-entry"><div class="v-num">' + entry.v + '</div><div class="v-notes">' + entry.notes + '</div></div>';

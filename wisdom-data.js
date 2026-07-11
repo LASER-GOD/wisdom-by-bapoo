@@ -49,12 +49,6 @@
   ];
 
   var JEWISH = [
-    { native: "Der mentsh trakht, un Got lakht", english: "Man plans, and God laughs." },
-    { native: "A halber emes iz a gantse lign", english: "A half-truth is a whole lie." },
-    { native: "Az me ken nisht ariber, geyt men arunter", english: "If you can't go over it, go under it." },
-    { native: "Mit gelt in kesheneh, bistu klug, bistu sheyn, un ken oykh gut zingen", english: "With money in your pocket, you are wise, you are handsome, and you sing well too." },
-    { native: "Beser a gutn soyne eyder a shlekhtn fraynd", english: "Better a good enemy than a bad friend." },
-    { native: "Az got vil, shist a bezem oykh", english: "When God wills it, even a broom can shoot." },
     { native: "Eizehu chacham? Halomed mikol adam.", english: "Who is wise? One who learns from every person." },
     { native: "Eizehu ashir? Hasameach b'chelko.", english: "Who is rich? One who is happy with what he has." },
     { native: "Eizehu gibor? Hakovesh et yitzro.", english: "Who is mighty? One who conquers his own impulses." },
@@ -65,7 +59,16 @@
     { native: "Kol Yisrael arevim zeh ba'zeh", english: "All people are responsible for one another." },
     { native: "Marbeh tzedakah, marbeh shalom", english: "The more charity given, the more peace in the world." },
     { native: "Tzedakah tatzil mimavet", english: "Charity saves from death." },
-    { native: "Eizehu mechubad? Hamechabed et habriyot.", english: "Who is honored? One who honors others." },
+    { native: "Eizehu mechubad? Hamechabed et habriyot.", english: "Who is honored? One who honors others." }
+  ];
+
+  var YIDDISH = [
+    { native: "Der mentsh trakht, un Got lakht", english: "Man plans, and God laughs." },
+    { native: "A halber emes iz a gantse lign", english: "A half-truth is a whole lie." },
+    { native: "Az me ken nisht ariber, geyt men arunter", english: "If you can't go over it, go under it." },
+    { native: "Mit gelt in kesheneh, bistu klug, bistu sheyn, un ken oykh gut zingen", english: "With money in your pocket, you are wise, you are handsome, and you sing well too." },
+    { native: "Beser a gutn soyne eyder a shlekhtn fraynd", english: "Better a good enemy than a bad friend." },
+    { native: "Az got vil, shist a bezem oykh", english: "When God wills it, even a broom can shoot." },
     { native: "Shlof gikher, me darf dos kishn", english: "Sleep faster, we need the pillow." },
     { native: "Az men est khazir, zol es rinen fun bord", english: "If you're going to eat pork, let it drip from your beard." },
     { native: "Az di kats volt gehat fligl, volt zi ale feygl oyfgegesn", english: "If the cat had wings, it would eat all the birds." },
@@ -112,10 +115,11 @@
   var CATEGORIES = [
     { id: "hindi", label: "Hindi", icon: "🪔" },
     { id: "jewish", label: "Jewish", icon: "✡️" },
+    { id: "yiddish", label: "Yiddish", icon: "🎻" },
     { id: "polish", label: "Polish", icon: "🦅" },
     { id: "random", label: "Random", icon: "🎲" }
   ];
 
-  window.WISDOM_DATA = { hindi: HINDI, jewish: JEWISH, polish: POLISH };
+  window.WISDOM_DATA = { hindi: HINDI, jewish: JEWISH, yiddish: YIDDISH, polish: POLISH };
   window.WISDOM_CATEGORIES = CATEGORIES;
 })();
