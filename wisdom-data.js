@@ -117,7 +117,8 @@
     { id: "jewish", label: "Jewish", icon: "✡️" },
     { id: "yiddish", label: "Yiddish", icon: "🎻" },
     { id: "polish", label: "Polish", icon: "🦅" },
-    { id: "random", label: "Random", icon: "🎲" }
+    { id: "random", label: "Random", icon: "🎲" },
+    { id: "favorites", label: "Favorites", icon: "❤️" }
   ];
 
   window.WISDOM_DATA = { hindi: HINDI, jewish: JEWISH, yiddish: YIDDISH, polish: POLISH };

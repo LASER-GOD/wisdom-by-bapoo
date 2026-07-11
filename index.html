@@ -297,6 +297,24 @@
       transform: scale(0.94);
       background: rgba(232, 191, 108, 0.24);
     }
+    .heart-btn {
+      min-width: 0;
+      width: 13vw;
+      height: 13vw;
+      max-width: 52px;
+      max-height: 52px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5.5vw;
+      line-height: 1;
+    }
+    .heart-btn.active {
+      background: rgba(224, 90, 90, 0.22);
+      border-color: #e05a5a;
+      color: #ff8383;
+    }
     #copyToast {
       position: fixed;
       bottom: calc(max(env(safe-area-inset-bottom), 18px) + 46px);
@@ -338,6 +356,7 @@
   <div id="actionBar">
     <button id="copyBtn" class="action-btn">Copy</button>
     <button id="messageBtn" class="action-btn">Text It</button>
+    <button id="heartBtn" class="action-btn heart-btn" aria-label="Favorite">&#9825;</button>
   </div>
   <div id="copyToast">Copied!</div>
 
@@ -370,9 +389,10 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v1.7';
+    var APP_VERSION = 'v1.8';
     var BUILD_DATE = 'July 8, 2026';
     var VERSION_HISTORY = [
+      { v: 'v1.8', notes: 'Added a heart button to save the proverb on screen to a new Favorites category, with its own button up top.' },
       { v: 'v1.7', notes: 'Split Yiddish out into its own button, separate from Jewish (which now holds the Hebrew/Talmudic sayings). Added an About-page counter for how many times the app has been opened, and a live count of the total number of proverbs.' },
       { v: 'v1.6', notes: 'Added 12 more classic Yiddish folk proverbs alongside the existing Hebrew/Talmudic sayings, bringing the Jewish category to 29 entries.' },
       { v: 'v1.5', notes: 'Added 14 more classic Hindi idioms and proverbs (including the Hindi equivalent of "no use crying over spilt milk"), bringing the Hindi category to 41 entries.' },
@@ -384,7 +404,7 @@
     ];
     var DATA = window.WISDOM_DATA;
     var CATEGORIES = window.WISDOM_CATEGORIES;
-    var CONTENT_IDS = CATEGORIES.filter(function (c) { return c.id !== 'random'; }).map(function (c) { return c.id; });
+    var CONTENT_IDS = CATEGORIES.filter(function (c) { return c.id !== 'random' && c.id !== 'favorites'; }).map(function (c) { return c.id; });
 
     var sayingEl = document.getElementById('saying');
     var sayingNativeEl = document.getElementById('sayingNative');
@@ -394,11 +414,53 @@
     var aboutOverlay = document.getElementById('aboutOverlay');
     var versionOverlay = document.getElementById('versionOverlay');
     var versionListEl = document.getElementById('versionList');
+    var heartBtn = document.getElementById('heartBtn');
     var currentCategory = CATEGORIES[0].id;
     var currentEntry = null;
     var lastIndex = -1;
     var lastTapTime = 0;
     var TAP_COOLDOWN_MS = 1000;
+
+    // Favorites are saved locally on this device (localStorage), keyed by
+    // matching native+english text since entries don't have separate ids.
+    var FAVORITES_KEY = 'wisdomBapooFavorites';
+    var favorites = [];
+    try {
+      favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY)) || [];
+    } catch (e) { favorites = []; }
+
+    function saveFavorites() {
+      try { localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites)); } catch (e) { /* ignore */ }
+    }
+
+    function findFavoriteIndex(entry) {
+      if (!entry) return -1;
+      for (var i = 0; i < favorites.length; i++) {
+        if (favorites[i].native === entry.native && favorites[i].english === entry.english) return i;
+      }
+      return -1;
+    }
+
+    function isFavorited(entry) { return findFavoriteIndex(entry) !== -1; }
+
+    function toggleFavorite(entry) {
+      var idx = findFavoriteIndex(entry);
+      if (idx === -1) {
+        favorites.push({ native: entry.native, english: entry.english });
+      } else {
+        favorites.splice(idx, 1);
+      }
+      saveFavorites();
+      updateHeartVisual();
+    }
+
+    function updateHeartVisual() {
+      var favorited = isRealEntry(currentEntry) && isFavorited(currentEntry);
+      heartBtn.classList.toggle('active', favorited);
+      heartBtn.innerHTML = favorited ? '&#9829;' : '&#9825;';
+    }
+
+    function isRealEntry(entry) { return !!(entry && entry.native); }
 
     // Random draws from a category picked fresh each tap (seeded off the current
     // time), so back-to-back taps roam across Hindi/Jewish/Polish instead of
@@ -414,7 +476,11 @@
     }
 
     function nextSaying() {
-      var list = DATA[pickCategoryId()];
+      var list = currentCategory === 'favorites' ? favorites : DATA[pickCategoryId()];
+      if (list.length === 0) {
+        lastIndex = -1;
+        return { native: '', english: 'No favorites yet — tap the heart on a proverb you love.' };
+      }
       var i;
       do { i = Math.floor(Math.random() * list.length); }
       while (i === lastIndex && list.length > 1);
@@ -434,6 +500,7 @@
         sayingNativeEl.textContent = currentEntry.native;
         sayingEnglishEl.textContent = currentEntry.english;
         sayingEl.classList.add('show');
+        updateHeartVisual();
       }, 180);
 
       var r = document.createElement('div');
@@ -625,13 +692,13 @@
 
     bindTap(copyBtn, function (e) {
       e.stopPropagation();
-      if (!currentEntry) return;
+      if (!isRealEntry(currentEntry)) return;
       copyText(entryText(currentEntry)).then(function () { showToast('Copied!'); });
     });
 
     bindTap(messageBtn, function (e) {
       e.stopPropagation();
-      if (!currentEntry) return;
+      if (!isRealEntry(currentEntry)) return;
       var text = entryText(currentEntry);
       copyText(text).then(function () {
         showToast('Copied — opening Messages…');
@@ -642,6 +709,13 @@
           window.location.href = url;
         }, 500);
       });
+    });
+
+    bindTap(heartBtn, function (e) {
+      e.stopPropagation();
+      if (!isRealEntry(currentEntry)) return;
+      toggleFavorite(currentEntry);
+      showToast(isFavorited(currentEntry) ? 'Added to Favorites' : 'Removed from Favorites');
     });
 
     // Checks the live deployment's version.json against the version baked into
