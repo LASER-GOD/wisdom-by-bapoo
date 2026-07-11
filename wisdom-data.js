@@ -65,7 +65,19 @@
     { native: "Kol Yisrael arevim zeh ba'zeh", english: "All people are responsible for one another." },
     { native: "Marbeh tzedakah, marbeh shalom", english: "The more charity given, the more peace in the world." },
     { native: "Tzedakah tatzil mimavet", english: "Charity saves from death." },
-    { native: "Eizehu mechubad? Hamechabed et habriyot.", english: "Who is honored? One who honors others." }
+    { native: "Eizehu mechubad? Hamechabed et habriyot.", english: "Who is honored? One who honors others." },
+    { native: "Shlof gikher, me darf dos kishn", english: "Sleep faster, we need the pillow." },
+    { native: "Az men est khazir, zol es rinen fun bord", english: "If you're going to eat pork, let it drip from your beard." },
+    { native: "Az di kats volt gehat fligl, volt zi ale feygl oyfgegesn", english: "If the cat had wings, it would eat all the birds." },
+    { native: "Me ken nisht tantsn oyf tsvey khasenes mit eyn hintn", english: "You can't dance at two weddings with one rear end." },
+    { native: "Az men hot nisht keyn seykhl, hot men fis", english: "If you don't have brains, you'd better have legs." },
+    { native: "Kleyne kinder, kleyne freydn; groyse kinder, groyse leydn", english: "Small children, small joys; big children, big troubles." },
+    { native: "Az men muz, ken men", english: "When one must, one can." },
+    { native: "Az Got vil shtrofn a mentshn, nemt er im op dem seykhl", english: "When God wants to punish someone, He first takes away their common sense." },
+    { native: "Alle kales zenen sheyn; alle meysim zenen frum", english: "All brides are beautiful; all the dead are pious." },
+    { native: "Gelt geyt tsu gelt", english: "Money goes to money." },
+    { native: "Az me lebt, derlebt men", english: "If you live long enough, you live to see everything." },
+    { native: "Der oylem iz a goylem", english: "The public is a golem (a mindless mass)." }
   ];
 
   var POLISH = [
