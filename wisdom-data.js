@@ -78,7 +78,22 @@
     { native: "Hatheli par sarson nahi jamti", english: "Mustard seed does not sprout on the palm of your hand." },
     { native: "Jaan bachi lakhon paaye", english: "A life saved is worth a fortune gained." },
     { native: "Apne muh miyan mithu", english: "Calling yourself sweet by your own mouth means nothing." },
-    { native: "Paanchon ungliyan barabar nahi hoti", english: "Not even the five fingers of one hand are equal." }
+    { native: "Paanchon ungliyan barabar nahi hoti", english: "Not even the five fingers of one hand are equal." },
+    { native: "Jahan chah wahan raah", english: "Where there is a will, there is a way." },
+    { native: "Der aaye durust aaye", english: "Better late than never." },
+    { native: "Ant bhala to sab bhala", english: "All is well that ends well." },
+    { native: "Chor-chor mausere bhai", english: "Thieves are all cousins to one another." },
+    { native: "Munh mein Ram, bagal mein churi", english: "Ram's name on the lips, a knife tucked under the arm." },
+    { native: "Unchi dukan phika pakwan", english: "A tall shop, but bland food inside." },
+    { native: "Apna hath jagannath", english: "Your own hand is your lord." },
+    { native: "Daal mein kala", english: "There's something black in the lentils." },
+    { native: "Jo garajte hain vo barsate nahin", english: "Those who thunder the loudest rarely bring the rain." },
+    { native: "Naam liya aur shaitaan hazir", english: "Speak of the devil, and he appears." },
+    { native: "Sanch ko aanch kya", english: "Truth has nothing to fear from fire." },
+    { native: "Jaisa desh, vaisa bhes", english: "Dress as the country does." },
+    { native: "Boye ped babul ka to aam kahan se paaye", english: "Plant a thornbush, and where will you find mangoes?" },
+    { native: "Jananee janmabhoomischa swargaadapi gareeyasi", english: "One's mother and one's homeland outweigh even heaven." },
+    { native: "Aasman se gira, khajoor mein atka", english: "Fell from the sky, and got stuck in a date palm." }
   ];
 
   var JEWISH = [
@@ -102,7 +117,12 @@
     { native: "Al tihyu cha'avadim hamshammeshin et harav al menat lekabbel peras", english: "Do not serve merely to receive a reward." },
     { native: "Histakkel bishloshah devarim", english: "Reflect on three things: where you came from, where you are going, and before whom you will one day account." },
     { native: "Yehi chevod chaverach chaviv aleicha", english: "Let your friend's honor be as dear to you as your own." },
-    { native: "Velo hammidrash hu ha'ikkar, ella hamma'aseh", english: "Study is not the main thing - action is." }
+    { native: "Velo hammidrash hu ha'ikkar, ella hamma'aseh", english: "Study is not the main thing - action is." },
+    { native: "Chayav adam lomar bishvili nivra ha'olam", english: "Every person must say: the world was created for my sake." },
+    { native: "Al tifrosh min hatzibur", english: "Do not separate yourself from the community." },
+    { native: "Shtika k'hoda'ah damia", english: "Silence is as good as agreement." },
+    { native: "Tafasta merube, lo tafasta", english: "If you grasp for too much, you end up grasping nothing." },
+    { native: "Kol haposel, bemumo posel", english: "Whoever finds fault in others reveals his own flaw." }
   ];
 
   var YIDDISH = [
@@ -170,7 +190,22 @@
     { native: "A barg mit a barg kumt zikh nit tsunoyf, ober a mentsh mit a mentshn yo", english: "Two mountains never meet, but two people do." },
     { native: "Dos epele falt nit vayt fun beymele", english: "The little apple never falls far from its little tree." },
     { native: "Verter zol men vegn un nit tseyln", english: "Words should be weighed, not merely counted." },
-    { native: "Mit a lefl ken men dem yam nit oys'shepn", english: "You cannot empty the sea with a spoon." }
+    { native: "Mit a lefl ken men dem yam nit oys'shepn", english: "You cannot empty the sea with a spoon." },
+    { native: "Az ich vel zayn vi er, ver vet zayn vi ich", english: "If I try to be like him, who will be like me?" },
+    { native: "Vos m'iz geveynt af der yugent, azoy tut men af der elter", english: "The habits formed in youth are what we follow in old age." },
+    { native: "Az me ken nit vi me vil, muz men vellen vi me ken", english: "If you can't do as you wish, you must wish to do as you can." },
+    { native: "Ehren is fil tei'erer far gelt", english: "Honor is worth far more than money." },
+    { native: "Mit gelt ken men nit shtoltsiren, me ken es laycht farliren", english: "Don't boast of money - it's easily lost." },
+    { native: "Far gelt bakumt men alts, nor keyn sechel nit", english: "Money buys everything except good sense." },
+    { native: "Di kats hot lib fish, nor zi vil di fis nit ayn-netsn", english: "The cat loves fish, but won't wet her paws to catch it." },
+    { native: "Kinder un gelt is a shaine velt", english: "Children and money make for a beautiful world." },
+    { native: "Di liebe is zees, nor zi iz gut mit broyt", english: "Love is sweet, but it's better with bread." },
+    { native: "Kleine kinder lozn nit shloffen, grosse kinder lozn nit leben", english: "Small children won't let you sleep, grown children won't let you live." },
+    { native: "Me varft nit aroys di umreyne vasser eyder me hot reynes", english: "Don't throw out the dirty water until you have clean water to replace it." },
+    { native: "A nar geyt tsvey mol dort vu a kliger geyt nit keyn eyntsik mol", english: "A fool goes twice where a wise man won't go even once." },
+    { native: "Az der soyne falt, tor men zich nit freyen, ober me heybt im nit oyf", english: "When your enemy falls, don't celebrate - but don't help him up either." },
+    { native: "Beser hern kloles eyder hern nebekh", english: "Better to be cursed than pitied." },
+    { native: "Far a tsap hot men moyre fun fornt, far a ferd fun hintn, far a nar fun ale zaytn", english: "Be wary in front of a goat, behind a horse, and on every side of a fool." }
   ];
 
   var POLISH = [
@@ -231,7 +266,16 @@
     { native: "Całuj rękę, której ukąsić nie możesz", english: "Kiss the hand you cannot bite." },
     { native: "Wielkie ryby małe żrą", english: "Big fish devour little fish." },
     { native: "Pijaństwo jest dobrowolne szaleństwo", english: "Drunkenness is madness by choice." },
-    { native: "Błędy lekarza pokrywa ziemia", english: "The doctor's mistakes are covered by the earth." }
+    { native: "Błędy lekarza pokrywa ziemia", english: "The doctor's mistakes are covered by the earth." },
+    { native: "Jak się nie ma, co się lubi, to się lubi, co się ma", english: "If you don't have what you like, you learn to like what you have." },
+    { native: "Nieszczęścia chodzą parami", english: "Misfortunes travel in pairs." },
+    { native: "Niedaleko spada jabłko od jabłoni", english: "The apple doesn't fall far from the tree." },
+    { native: "Co dwie głowy, to nie jedna", english: "Two heads are better than one." },
+    { native: "Co nagle, to po diable", english: "What's done in haste is the devil's work." },
+    { native: "Co za dużo, to niezdrowo", english: "Too much of anything isn't healthy." },
+    { native: "Czym się strułeś, tym się lecz", english: "Cure yourself with what poisoned you." },
+    { native: "Pies ogrodnika – sam nie zje i drugiemu nie da", english: "The gardener's dog - won't eat it himself, and won't let anyone else either." },
+    { native: "Gdyby kózka nie skakała, to by nóżki nie złamała", english: "If the little goat hadn't jumped, it wouldn't have broken its leg." }
   ];
 
   var CATEGORIES = [

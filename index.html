@@ -370,6 +370,7 @@
       <div class="about-stats">
         <p id="statSayings"></p>
         <p id="statOpens"></p>
+        <p id="statSize"></p>
       </div>
       <div class="about-footer">
         <p>Programmed by <strong>LASER GOD</strong></p>
@@ -389,9 +390,10 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v1.9';
-    var BUILD_DATE = 'July 10, 2026 · 7:31 PM';
+    var APP_VERSION = 'v2.0';
+    var BUILD_DATE = 'July 11, 2026 · 7:38 PM';
     var VERSION_HISTORY = [
+      { v: 'v2.0', notes: 'Added another batch of verified proverbs (15 more Hindi, 16 more Yiddish, 9 more Polish, 5 more Hebrew/Talmudic - 262 total now). The About page now also shows the live size of the proverb data file.' },
       { v: 'v1.9', notes: 'The About page now shows the exact date and time of the current build, not just the date. Added a large batch of new, verified traditional proverbs: 33 more Hindi, 47 more Yiddish, 32 more Polish, and 10 more Hebrew/Talmudic sayings.' },
       { v: 'v1.8', notes: 'Added a heart button to save the proverb on screen to a new Favorites category, with its own button up top.' },
       { v: 'v1.7', notes: 'Split Yiddish out into its own button, separate from Jewish (which now holds the Hebrew/Talmudic sayings). Added an About-page counter for how many times the app has been opened, and a live count of the total number of proverbs.' },
@@ -598,6 +600,17 @@
         'Opened ' + openCount + (openCount === 1 ? ' time' : ' times');
       document.getElementById('statSayings').textContent =
         totalSayings + ' proverbs and counting';
+
+      // Measures the actual size of the proverb data file on disk, rather
+      // than hardcoding a number that would go stale every time content
+      // is added.
+      fetch('wisdom-data.js')
+        .then(function (res) { return res.blob(); })
+        .then(function (blob) {
+          document.getElementById('statSize').textContent =
+            (blob.size / 1024).toFixed(1) + ' KB of wisdom';
+        })
+        .catch(function () { /* offline: leave the line blank */ });
     })();
 
     versionListEl.innerHTML = VERSION_HISTORY.map(function (entry) {
