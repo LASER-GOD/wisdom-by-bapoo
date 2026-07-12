@@ -278,15 +278,72 @@
     { native: "Gdyby kózka nie skakała, to by nóżki nie złamała", english: "If the little goat hadn't jumped, it wouldn't have broken its leg." }
   ];
 
+  // Fortune cookie fortunes have no "original language" - the format itself
+  // is an American invention - so these entries carry an empty native line
+  // and only the fortune text.
+  var FORTUNE = [
+    { native: "", english: "A journey of a thousand miles begins with a single step - so does a nap." },
+    { native: "", english: "You will find what you are not looking for." },
+    { native: "", english: "Good things come to those who tap again." },
+    { native: "", english: "A closed mouth gathers no foot." },
+    { native: "", english: "Your talents will be recognized and suitably rewarded." },
+    { native: "", english: "The best way to predict the future is to create it." },
+    { native: "", english: "A pleasant surprise is waiting for you." },
+    { native: "", english: "Someone is thinking of you at this very moment." },
+    { native: "", english: "Fortune favors the bold, but rewards the patient." },
+    { native: "", english: "The smallest step in the right direction ends up being the biggest step of your life." },
+    { native: "", english: "You will soon receive news that makes you smile." },
+    { native: "", english: "Do not fear the unknown; you have outlasted every uncertainty so far." },
+    { native: "", english: "A wise person once said nothing." },
+    { native: "", english: "The next chapter of your life is going to be a good one." },
+    { native: "", english: "Great things are coming your way - keep your eyes open." },
+    { native: "", english: "Your ability to juggle many tasks will get you far." },
+    { native: "", english: "A dream you have not yet had is waiting for you tonight." },
+    { native: "", english: "The one who plants the tree rarely sits in its shade, but plants it anyway." },
+    { native: "", english: "You cannot discover new oceans unless you have the courage to lose sight of the shore." },
+    { native: "", english: "Patience is not the ability to wait, but the ability to keep a good attitude while waiting." },
+    { native: "", english: "Someone you have not yet met will change your life for the better." },
+    { native: "", english: "Your smile is your logo, your personality is your business card." },
+    { native: "", english: "A single sunbeam is enough to drive away many shadows." },
+    { native: "", english: "The fortune you seek is in another cookie - keep tapping." },
+    { native: "", english: "Now is the time to try something new." },
+    { native: "", english: "An unexpected event will bring you great joy." },
+    { native: "", english: "You will travel to many places, and be welcome in all of them." },
+    { native: "", english: "Believe in yourself and others will too." },
+    { native: "", english: "The greatest risk is not taking one." },
+    { native: "", english: "Your hard work is about to pay off." },
+    { native: "", english: "A good laugh is sunshine in a house." },
+    { native: "", english: "Opportunity is often disguised as hard work." },
+    { native: "", english: "You are stronger than you think, and braver than you know." },
+    { native: "", english: "The answer you seek is already inside you." },
+    { native: "", english: "Kindness is a language everyone can hear." },
+    { native: "", english: "Trust the timing of your life." },
+    { native: "", english: "A generous heart never grows poor." },
+    { native: "", english: "The best time to plant a tree was twenty years ago; the second best time is now." },
+    { native: "", english: "Your future is created by what you do today, not tomorrow." },
+    { native: "", english: "Small deeds done are better than great deeds planned." },
+    { native: "", english: "There is no time like the present." },
+    { native: "", english: "You will make someone very happy this week." },
+    { native: "", english: "A calm sea never made a skilled sailor." },
+    { native: "", english: "Your creativity will open unexpected doors." },
+    { native: "", english: "The road ahead is longer than the road behind - walk it slowly." },
+    { native: "", english: "A friend asks only for your time, not your money." },
+    { native: "", english: "You will overcome a great obstacle very soon." },
+    { native: "", english: "Fortune sides with those who dare." },
+    { native: "", english: "This is a good time to finish what you started." },
+    { native: "", english: "Your positive attitude is a magnet for good things." }
+  ];
+
   var CATEGORIES = [
     { id: "hindi", label: "Hindi", icon: "🪔" },
     { id: "jewish", label: "Jewish", icon: "✡️" },
     { id: "yiddish", label: "Yiddish", icon: "🎻" },
     { id: "polish", label: "Polish", icon: "🦅" },
+    { id: "fortune", label: "Fortune Cookie", icon: "🥠" },
     { id: "random", label: "Random", icon: "🎲" },
     { id: "favorites", label: "Favorites", icon: "❤️" }
   ];
 
-  window.WISDOM_DATA = { hindi: HINDI, jewish: JEWISH, yiddish: YIDDISH, polish: POLISH };
+  window.WISDOM_DATA = { hindi: HINDI, jewish: JEWISH, yiddish: YIDDISH, polish: POLISH, fortune: FORTUNE };
   window.WISDOM_CATEGORIES = CATEGORIES;
 })();

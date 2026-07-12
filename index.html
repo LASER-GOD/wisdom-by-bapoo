@@ -390,9 +390,10 @@
 
   <script src="wisdom-data.js"></script>
   <script>
-    var APP_VERSION = 'v2.0';
-    var BUILD_DATE = 'July 11, 2026 · 7:38 PM';
+    var APP_VERSION = 'v2.1';
+    var BUILD_DATE = 'July 11, 2026 · 7:45 PM';
     var VERSION_HISTORY = [
+      { v: 'v2.1', notes: 'Added a Fortune Cookie button with 50 original fortunes (its own category, no native-language line since fortune cookies aren\'t tied to a single language).' },
       { v: 'v2.0', notes: 'Added another batch of verified proverbs (15 more Hindi, 16 more Yiddish, 9 more Polish, 5 more Hebrew/Talmudic - 262 total now). The About page now also shows the live size of the proverb data file.' },
       { v: 'v1.9', notes: 'The About page now shows the exact date and time of the current build, not just the date. Added a large batch of new, verified traditional proverbs: 33 more Hindi, 47 more Yiddish, 32 more Polish, and 10 more Hebrew/Talmudic sayings.' },
       { v: 'v1.8', notes: 'Added a heart button to save the proverb on screen to a new Favorites category, with its own button up top.' },
@@ -463,7 +464,7 @@
       heartBtn.innerHTML = favorited ? '&#9829;' : '&#9825;';
     }
 
-    function isRealEntry(entry) { return !!(entry && entry.native); }
+    function isRealEntry(entry) { return !!(entry && !entry.isPlaceholder); }
 
     // Random draws from a category picked fresh each tap (seeded off the current
     // time), so back-to-back taps roam across Hindi/Jewish/Polish instead of
@@ -482,7 +483,7 @@
       var list = currentCategory === 'favorites' ? favorites : DATA[pickCategoryId()];
       if (list.length === 0) {
         lastIndex = -1;
-        return { native: '', english: 'No favorites yet — tap the heart on a proverb you love.' };
+        return { native: '', english: 'No favorites yet — tap the heart on a proverb you love.', isPlaceholder: true };
       }
       var i;
       do { i = Math.floor(Math.random() * list.length); }
@@ -501,6 +502,7 @@
       setTimeout(function () {
         currentEntry = nextSaying();
         sayingNativeEl.textContent = currentEntry.native;
+        sayingNativeEl.style.display = currentEntry.native ? '' : 'none';
         sayingEnglishEl.textContent = currentEntry.english;
         sayingEl.classList.add('show');
         updateHeartVisual();
@@ -701,7 +703,7 @@
     }
 
     function entryText(entry) {
-      return entry.native + '\n"' + entry.english + '"';
+      return entry.native ? entry.native + '\n"' + entry.english + '"' : entry.english;
     }
 
     bindTap(copyBtn, function (e) {
